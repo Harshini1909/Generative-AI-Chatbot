@@ -167,6 +167,75 @@ This application is a conversational chatbot powered by **Google Generative AI**
 
 ---
 
+## Bonus Documentation
+
+### Generic Agent Implementation
+
+The chatbot is designed to handle dynamic tasks by processing user-defined schemas. This implementation enables the chatbot to adapt to different use cases, such as collecting user feedback, survey data, or customized profile information. The schema-driven approach ensures that data collection, validation, and persistence are flexible and scalable.
+
+### Implementation Details
+
+1. **Schema Definition**:
+   - A JSON schema specifies the fields, data types, and validation rules for data collection.
+   - Example schema:
+     ```json
+     {
+         "fields": [
+             {"name": "username", "type": "text", "label": "Username"},
+             {"name": "email", "type": "text", "label": "Email"},
+             {"name": "age", "type": "number", "label": "Age", "validation": "value > 0"},
+             {"name": "feedback", "type": "text", "label": "Feedback"}
+         ]
+     }
+     ```
+
+2. **Dynamic Interaction Flow**:
+   - Prompts for user inputs are dynamically generated based on the schema.
+   - Input validation ensures data complies with specified rules before storage.
+
+3. **Data Persistence**:
+   - Data collected through the chatbot is stored in a PostgreSQL table.
+   - The schema defines the structure of the table, enabling automated table creation.
+
+### Example Integration of a New Schema
+
+#### Step 1: Define the Schema
+Create a JSON schema file (e.g., `schema.json`) to outline the data collection fields:
+```json
+{
+    "fields": [
+        {"name": "employee_id", "type": "text", "label": "Employee ID"},
+        {"name": "name", "type": "text", "label": "Name"},
+        {"name": "age", "type": "number", "label": "Age", "validation": "value > 0"},
+        {"name": "department", "type": "text", "label": "Department"}
+    ]
+}
+```
+
+#### Step 2: Process the Schema
+The chatbot dynamically creates prompts and validates inputs based on the schema. For example:
+```python
+for field in schema["fields"]:
+    user_input = input(f"{field['label']}: ")
+    # Validation logic here based on field["type"] and field["validation"]
+```
+
+#### Step 3: Create a Table from the Schema
+Generate a PostgreSQL table dynamically:
+```python
+def create_table_from_schema(schema):
+    columns = []
+    for field in schema["fields"]:
+        col_type = "TEXT" if field["type"] == "text" else "NUMERIC"
+        columns.append(f"{field['name']} {col_type}")
+    columns_def = ", ".join(columns)
+    query = f"CREATE TABLE IF NOT EXISTS dynamic_data ({columns_def})"
+    cursor.execute(query)
+    conn.commit()
+```
+
+---
+
 ## Acknowledgments
 
 This project utilizes:
