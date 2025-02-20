@@ -1,0 +1,52 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables
+.env
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# PostgreSQL
+postgres-db/
+
+# Build / Distribution
+build/
+dist/
+*.egg-info/
+.wheels/
+lib/
+lib64/
+
+# Test Artifacts
+.tox/
+.nox/
+.pytest_cache/
+.coverage
+.hypothesis/
+.coverage.*
+
+# Type Checking
+.mypy_cache/
+.dmypy.json
+.pytype/
+
+# IDE / Editor Settings
+.idea/
+.spyderproject
+.ropeproject
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Debug and Logs
+*.log
+*.manifest
+cython_debug/
